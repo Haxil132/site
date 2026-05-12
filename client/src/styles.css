@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+html.dark {
+  color-scheme: dark;
+}
+html:not(.dark) {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(168,85,247,0.25), transparent 30%),
+    radial-gradient(circle at top right, rgba(34,211,238,0.18), transparent 28%),
+    radial-gradient(circle at bottom, rgba(16,185,129,0.10), transparent 24%),
+    linear-gradient(180deg, #09090b 0%, #0b0b10 40%, #09090b 100%);
+  color: white;
+  transition: background .3s ease, color .3s ease;
+}
+html:not(.dark) body {
+  background:
+    radial-gradient(circle at top left, rgba(236,72,153,0.16), transparent 30%),
+    radial-gradient(circle at top right, rgba(59,130,246,0.12), transparent 28%),
+    linear-gradient(180deg, #f7f7fb 0%, #eceffd 40%, #f8f8ff 100%);
+  color: #111;
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-[28px] border border-white/10 bg-white/10 p-5 shadow-glass backdrop-blur-xl;
+    background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+  }
+  .hero-card {
+    @apply glass-card overflow-hidden p-6 md:p-10;
+    position: relative;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    inset: -20%;
+    background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.09), transparent 24%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06), transparent 26%);
+    pointer-events: none;
+    filter: blur(8px);
+  }
+  .glass-input {
+    @apply flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold transition hover:scale-[1.01];
+  }
+  .glass-field {
+    @apply w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-3 outline-none placeholder:opacity-50;
+  }
+  .post-action {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm transition hover:bg-white/15;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; }
+::selection { background: rgba(255,255,255,0.24); }
+
+@keyframes floaty {
+  0%, 100% { transform: translateY(0px) }
+  50% { transform: translateY(-12px) }
+}
+.hero-card h1 span {
+  animation: floaty 7s ease-in-out infinite;
+}

@@ -1,0 +1,12 @@
+const router = require('express').Router();
+const rateLimit = require('express-rate-limit');
+const authLimiter = rateLimit({ windowMs: 60 * 60 * 1000, limit: 12, standardHeaders: true, legacyHeaders: false });
+const { register, login, me } = require('../controllers/authController');
+const { requireAuth } = require('../middleware/auth');
+const { upload } = require('../middleware/upload');
+const { uploadAvatar } = require('../controllers/userController');
+router.post('/register', authLimiter, register);
+router.post('/login', authLimiter, login);
+router.get('/me', requireAuth, me);
+router.post('/avatar', requireAuth, upload.single('avatar'), uploadAvatar);
+module.exports = router;
