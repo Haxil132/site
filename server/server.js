@@ -18,13 +18,17 @@ initDb();
 
 const app = express();
 const port = process.env.PORT || 8080;
-const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://site-rho-one-61.vercel.app'
+];
 
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: 'cross-origin' }
-}));
 app.use(cors({
-  origin: clientOrigin,
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(null, true); // можно ужесточить позже
+  },
   credentials: true
 }));
 app.use(express.json({ limit: '2mb' }));
